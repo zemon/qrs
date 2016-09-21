@@ -24,13 +24,17 @@ typedef struct QRS_params
    int RR_MISS;
    int PEAKS[10];
    int counter;
+   int lastRPeak;
+   int RecentRR[8];
+   int RecentRROK[8];
+   int RPeaks[100];
    // Add parameters that are missing
    // or of use to you
 
 } QRS_params;
 
 // Feel free to change and add methods
-void peakDetection(QRS_params *params, int x1, int x2, int x3);
+void peakDetection(QRS_params *params, int x1, int x2, int x3, int time);
 
 void updateThreshholds(QRS_params *params, int peak);
 

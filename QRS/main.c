@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
 	qrs_params.counter=0;
 	qrs_params.NPKF = 4000;
 	qrs_params.SPKF = 500;
+	qrs_params.lastRPeak = 0;
+
+
 
 
 
@@ -47,7 +50,7 @@ int main(int argc, char *argv[])
 		finalFilter[counter%3] = movingWindowIntegration(sum);
 		//printf("%d \n",counter);
 		if(counter>1){
-			peakDetection(&qrs_params, finalFilter[modulo(counter-2,3)], finalFilter[modulo(counter-1,3)],finalFilter[modulo(counter,3)]);
+			peakDetection(&qrs_params, finalFilter[modulo(counter-2,3)], finalFilter[modulo(counter-1,3)],finalFilter[modulo(counter,3)], counter);
 
 		}
 
