@@ -10,14 +10,16 @@ int main(int argc, char *argv[])
 	FILE *file = openfile(filename);
 	struct QRS_params qrs_params;
 	qrs_params.counter=0;
-	qrs_params.NPKF = 4000;
-	qrs_params.SPKF = 500;
+	qrs_params.NPKF = 4500;
+	qrs_params.SPKF = 750;
 	qrs_params.lastRPeak = 0;
 	qrs_params.RR_HIGH = 30000;
 	qrs_params.RR_LOW = 0;
 	qrs_params.RR_MISS = 35000;
 	qrs_params.RecentRR[8] = 0;
 	qrs_params.RecentRROK[8] = 0;
+	qrs_params.RPeaks[100] = 0;
+
 
 
 
@@ -30,6 +32,7 @@ int main(int argc, char *argv[])
 	int highPassArray[5] = {0};
 	int derivativeFilterArray[30] = {0};
 	int finalFilter[3]= {0};
+
 	//printf("%d", lowPassArray[modulo(counter-3,33)]);
 	while(!feof (file)){
 
@@ -59,6 +62,10 @@ int main(int argc, char *argv[])
 
 		counter++;
 
+	}
+
+	for(int i = 0; i<qrs_params.RPeaks[100];i++){
+		printf("tid:%d  Værdi:%d  Index: %d \n",qrs_params.RPeaks[i+50],qrs_params.RPeaks[i],i);
 	}
 	fclose(file);
 

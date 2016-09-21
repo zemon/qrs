@@ -27,7 +27,7 @@ typedef struct QRS_params
    int lastRPeak;
    int RecentRR[9];
    int RecentRROK[9];
-   int RPeaks[100];
+   int RPeaks[101];
    // Add parameters that are missing
    // or of use to you
 
