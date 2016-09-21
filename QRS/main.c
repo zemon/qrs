@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
 	for(int i = 0; i<qrs_params.RPeaks[100];i++){
 		printf("tid:%d  Værdi:%d  Index: %d \n",qrs_params.RPeaks[i+50],qrs_params.RPeaks[i],i);
 	}
+	printf("%d \n", qrs_params.counter);
 	fclose(file);
 
 

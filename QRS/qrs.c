@@ -11,7 +11,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 		params->PEAKS[params->counter%50+50] = time;
 		//printf("%d \n",currentRR);
 		if(params->counter == 0){
-			updateThreshholds(params, x2);
+			updateThreshholds(params);
 		}
 		params->counter++;
 		//Calcalte RR peak
@@ -44,7 +44,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 
 				//printf("average 1: %d average 2 : %d \n",params->RR_AVERAGE1,params->RR_AVERAGE2);
 
-				updateThreshholds(params,x2);
+				updateThreshholds(params);
 				updateRRIntervals(params,params->RR_AVERAGE2);
 
 			}
@@ -74,7 +74,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 
 					params->RR_AVERAGE1 = calculateAverage(params->RecentRR);
 					updateRRIntervals(params,params->RR_AVERAGE1);
-					updateThreshholds(params, peak2);
+					updateThreshholds(params);
 
 
 
@@ -84,7 +84,8 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 			}
 
 		}else{
-			updateThreshholds(params, x2);
+			params->NPKF = params->NPKF*0.875+0.125*x2;
+			updateThreshholds(params);
 		}
 
 
@@ -111,8 +112,8 @@ int calculateAverage(int *array){
 	}
 }
 
-void updateThreshholds(QRS_params *params, int peak){
-	params->NPKF = params->NPKF*0.875+0.125*peak;
+void updateThreshholds(QRS_params *params){
+
 	params->THRESHOLD1 = params->NPKF+0.25*(params->SPKF-params->NPKF);
 	params->THRESHOLD2 = (params->THRESHOLD1)/2;
 	//printf("%d %d %d", params->NPKF, params->THRESHOLD1, params->THRESHOLD2);
