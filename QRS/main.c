@@ -13,8 +13,11 @@ int main(int argc, char *argv[])
 	qrs_params.NPKF = 4000;
 	qrs_params.SPKF = 500;
 	qrs_params.lastRPeak = 0;
-
-
+	qrs_params.RR_HIGH = 30000;
+	qrs_params.RR_LOW = 0;
+	qrs_params.RR_MISS = 35000;
+	qrs_params.RecentRR[8] = 0;
+	qrs_params.RecentRROK[8] = 0;
 
 
 

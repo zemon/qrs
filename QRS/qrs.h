@@ -25,8 +25,8 @@ typedef struct QRS_params
    int PEAKS[10];
    int counter;
    int lastRPeak;
-   int RecentRR[8];
-   int RecentRROK[8];
+   int RecentRR[9];
+   int RecentRROK[9];
    int RPeaks[100];
    // Add parameters that are missing
    // or of use to you
@@ -37,6 +37,10 @@ typedef struct QRS_params
 void peakDetection(QRS_params *params, int x1, int x2, int x3, int time);
 
 void updateThreshholds(QRS_params *params, int peak);
+
+int calculateAverage(int *array);
+
+void updateRRIntervals(QRS_params *params, int RR_Average);
 
 
 #endif /* QRS_H_ */
