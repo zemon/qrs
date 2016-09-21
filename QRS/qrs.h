@@ -22,7 +22,7 @@ typedef struct QRS_params
    int RR_LOW;
    int RR_HIGH;
    int RR_MISS;
-   int PEAKS[10];
+   int PEAKS[100];
    int counter;
    int lastRPeak;
    int RecentRR[9];

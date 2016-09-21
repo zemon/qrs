@@ -7,7 +7,9 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 	int currentRR;
 
 	if(x1<x2 && x2>x3){
-		params->PEAKS[params->counter%10] = x2;
+		params->PEAKS[params->counter%50] = x2;
+		params->PEAKS[params->counter%50+50] = time;
+
 		if(params->counter == 0){
 			updateThreshholds(params, x2);
 		}
@@ -46,7 +48,29 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 
 			}
 			else{
-				if(currentRR>params->RR_MISS){
+				if(currentRR<params->RR_MISS){
+					int i = params->counter;
+					int peak2 = params->PEAKS[i%50];
+					while(peak2<params->THRESHOLD2){
+						i--;
+						peak2 =params->PEAKS[i%50];
+					}
+
+					//store the new Rpeak
+					params->RPeaks[params->RPeaks[99]%99]= peak2;
+					params->RPeaks[99]++;
+
+					//store the RR interval in rencentRR
+					params->RecentRR[params->RecentRR[8]%8] = time-params->PEAKS[i%50+50];
+					params->RecentRR[8]++;
+
+					params->SPKF = 0.25*peak2+0.75*params->SPKF;
+
+					params->RR_AVERAGE1 = calculateAverage(params->RecentRR);
+					updateRRIntervals(params,params->RR_AVERAGE1);
+					updateThreshholds(params, peak2);
+
+
 
 				}
 
