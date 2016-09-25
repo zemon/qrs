@@ -37,6 +37,7 @@ typedef struct QRS_params
 void peakDetection(QRS_params *params, int x1, int x2, int x3, int time);
 
 void updateThreshholds(QRS_params *params);
+int calculateRR(int time, int lastPeak);
 
 int calculateAverage(int *array);
 
