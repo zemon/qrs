@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	struct QRS_params qrs_params;
 	qrs_params.counter=0;
 	qrs_params.NPKF = 4500;
-	qrs_params.SPKF = 750;
+	qrs_params.SPKF = 1500;
 	qrs_params.lastRPeak = 0;
 	qrs_params.RR_HIGH = 30000;
 	qrs_params.RR_LOW = 0;

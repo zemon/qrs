@@ -5,20 +5,25 @@
 void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 {
 	int currentRR;
+	if(x1<=	x2 && x2>x3){
 
-	if(x1<x2 && x2>x3){
 		params->PEAKS[params->counter%50] = x2;
 		params->PEAKS[params->counter%50+50] = time;
-		//printf("%d \n",currentRR);
+		//printf("%d  %d\n",time, x2);
 		if(params->counter == 0){
 			updateThreshholds(params);
+
+
 		}
 		params->counter++;
+		printf("RR: %d tid: %d THRESH1 : %d THRESH2 : %d\n ", x2, time, params ->THRESHOLD1,params ->THRESHOLD2);
+
 		//Calcalte RR peak
 		if(x2 > params->THRESHOLD1){
 			currentRR = calculateRR(time, params->lastRPeak);
 
-			params->lastRPeak = time;
+
+
 
 			//high low check
 			if(currentRR > params->RR_LOW && currentRR < params->RR_HIGH){
@@ -32,9 +37,12 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 				params->RecentRROK[params->RecentRROK[8]%8] = currentRR;
 				params->RecentRROK[8]++;
 
+				params->lastRPeak = time;
 
 				//update SPKF
-				params->SPKF = x2/8+(x2*7)/8;
+				//printf("%d \n", x2, time, params ->SPKF);
+				//params->SPKF = x2*0.125+x2*+0.875*params->SPKF;
+				params->SPKF = x2*0.125;
 
 				//calculate RR_average1
 				params->RR_AVERAGE1 =calculateAverage(params->RecentRR);
@@ -47,6 +55,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 				updateThreshholds(params);
 				updateRRIntervals(params,params->RR_AVERAGE2);
 
+
 			}
 			else{
 
@@ -54,7 +63,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 						//printf("%d \n",currentRR);
 				if(currentRR>params->RR_MISS){
 					//printf("%d \n",currentRR);
-					int i = params->counter-1;
+					int i = params->counter-2;
 					int peak2 = params->PEAKS[i%50];
 					while(peak2<=params->THRESHOLD2){
 						i--;
@@ -73,6 +82,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 
 					//printf("test : %d \n",calculateRR(params->PEAKS[i%50+50], params->RPeaks[(params->RPeaks[100]-1)%50+50]));
 					params->lastRPeak = params->PEAKS[i%50+50];
+					//printf("%d, \n", params->lastRPeak);
 
 					params->SPKF = 0.25*peak2+0.75*params->SPKF;
 
