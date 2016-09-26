@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 	qrs_params.RecentRR[8] = 0;
 	qrs_params.RecentRROK[8] = 0;
 	qrs_params.RPeaks[100] = 0;
+	qrs_params.THRESHOLD1 = 5000;
+	qrs_params.THRESHOLD2 = 5000;
 
 
 
@@ -54,7 +56,13 @@ int main(int argc, char *argv[])
 
 		sum = sumN(sum, derivativeFilterArray[counter%30],derivativeFilterArray[(counter+1)%30]);
 		finalFilter[counter%3] = movingWindowIntegration(sum);
-		//printf("%d \n",counter);
+
+
+		//printf("%d \n",finalFilter[modulo(counter-1,3)]);
+
+		//Til visualissere threshodls
+		//printf("%d\n", qrs_params.THRESHOLD2);
+
 		if(counter>1){
 			peakDetection(&qrs_params, finalFilter[modulo(counter-2,3)], finalFilter[modulo(counter-1,3)],finalFilter[modulo(counter,3)], counter);
 
@@ -65,9 +73,11 @@ int main(int argc, char *argv[])
 	}
 
 	for(int i = 0; i<qrs_params.RPeaks[100];i++){
-		printf("tid:%d  Værdi:%d  Index: %d \n",qrs_params.RPeaks[i+50],qrs_params.RPeaks[i],i);
+		printf("%d\n",qrs_params.RPeaks[i+50]);
 	}
-	printf("%d \n", qrs_params.counter);
+
+
+	//printf("%d \n", qrs_params.counter);
 	fclose(file);
 
 
