@@ -10,7 +10,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 		params->PEAKS[params->counter%50] = x3;
 		params->PEAKS[params->counter%50+50] = time;
 
-		//printf("%d\n", x2);
+		//printf("%d\n", x3);
 
 		//printf("%d\n, time");
 
@@ -82,7 +82,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 					params->RPeaks[100]++;
 
 					//til at vise searchbacks
-					//printf("%d\n", peak2);
+					printf("%d\n", params->RPeaks[params->RPeaks[100]+1]);
 
 					//store the RR interval in recentRR
 					params->RecentRR[params->RecentRR[8]%8] = calculateRR(params->PEAKS[i%50+50], params->RPeaks[(params->RPeaks[100]-2)%50+50]);
@@ -138,7 +138,7 @@ int calculateAverage(int *array){
 }
 int calculateRR(int time, int lastPeak){
 	int rr = time-lastPeak;
-	printf("Tid: %d RR: %d\n", time,rr);
+	//printf("Tid: %d RR: %d\n", time,rr);
 	return rr;
 }
 

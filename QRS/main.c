@@ -58,10 +58,10 @@ int main(int argc, char *argv[])
 		finalFilter[counter%5] = movingWindowIntegration(sum);
 
 
-		//printf("%d \n",finalFilter[modulo(counter-1,3)]);
+		//printf("%d \n",finalFilter[modulo(counter-1,5)]);
 
 		//Til visualissere threshodls
-		//printf("%d\n", qrs_params.THRESHOLD2);
+		//printf("%d\n", qrs_params.THRESHOLD1);
 
 		if(counter>3){
 			peakDetection(&qrs_params, finalFilter[modulo(counter-4,5)], finalFilter[modulo(counter-3,5)],
@@ -74,11 +74,11 @@ int main(int argc, char *argv[])
 
 	}
 
-	for(int i = 0; i<qrs_params.RPeaks[100];i++){
-		printf("index : %d tid : %d værdi :%d\n", i,qrs_params.RPeaks[i+50], qrs_params.RPeaks[i]);
-	}
+	/*for(int i = 0; i<qrs_params.RPeaks[100];i++){
+		printf("%d\n",qrs_params.RPeaks[i+50]);
+	}*/
 
-
+//, qrs_params.RPeaks[i]
 	//printf("%d \n", qrs_params.counter);
 	fclose(file);
 
