@@ -34,7 +34,7 @@ typedef struct QRS_params
 } QRS_params;
 
 // Feel free to change and add methods
-void peakDetection(QRS_params *params, int x1, int x2, int x3, int time);
+void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, int time);
 
 void updateThreshholds(QRS_params *params);
 int calculateRR(int time, int lastPeak);

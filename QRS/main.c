@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	int lowPassArray[33] = {0};
 	int highPassArray[5] = {0};
 	int derivativeFilterArray[30] = {0};
-	int finalFilter[3]= {0};
+	int finalFilter[5]= {0};
 
 	//printf("%d", lowPassArray[modulo(counter-3,33)]);
 	while(!feof (file)){
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 				highPassArray[modulo(counter-3,5)],highPassArray[modulo(counter-4,5)]);
 
 		sum = sumN(sum, derivativeFilterArray[counter%30],derivativeFilterArray[(counter+1)%30]);
-		finalFilter[counter%3] = movingWindowIntegration(sum);
+		finalFilter[counter%5] = movingWindowIntegration(sum);
 
 
 		//printf("%d \n",finalFilter[modulo(counter-1,3)]);
@@ -63,8 +63,10 @@ int main(int argc, char *argv[])
 		//Til visualissere threshodls
 		//printf("%d\n", qrs_params.THRESHOLD2);
 
-		if(counter>1){
-			peakDetection(&qrs_params, finalFilter[modulo(counter-2,3)], finalFilter[modulo(counter-1,3)],finalFilter[modulo(counter,3)], counter);
+		if(counter>3){
+			peakDetection(&qrs_params, finalFilter[modulo(counter-4,5)], finalFilter[modulo(counter-3,5)],
+					finalFilter[modulo(counter-2,5)], finalFilter[modulo(counter-1,5)],
+					finalFilter[modulo(counter,5)], counter);
 
 		}
 
@@ -72,9 +74,9 @@ int main(int argc, char *argv[])
 
 	}
 
-	/*for(int i = 0; i<qrs_params.RPeaks[100];i++){
-		printf("%d\n",qrs_params.RPeaks[i+50]);
-	}*/
+	for(int i = 0; i<qrs_params.RPeaks[100];i++){
+		printf("index : %d tid : %d værdi :%d\n", i,qrs_params.RPeaks[i+50], qrs_params.RPeaks[i]);
+	}
 
 
 	//printf("%d \n", qrs_params.counter);

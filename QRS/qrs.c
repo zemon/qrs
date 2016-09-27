@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "qrs.h"
 
-void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
+void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, int time)
 {
 	int currentRR;
-	if(x1<	x2 && x2>x3){
+	if(x1<	x2 && x2<=x3 && x3>=x4 && x4>x5){
 
-		params->PEAKS[params->counter%50] = x2;
+		params->PEAKS[params->counter%50] = x3;
 		params->PEAKS[params->counter%50+50] = time;
 
 		//printf("%d\n", x2);
@@ -24,7 +24,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 		//printf("%d\n", params ->THRESHOLD2);
 
 		//Calcalte RR peak
-		if(x2 > params->THRESHOLD1){
+		if(x3 > params->THRESHOLD1){
 			currentRR = calculateRR(time, params->lastRPeak);
 
 
@@ -32,7 +32,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 
 			//high low check
 			if(currentRR > params->RR_LOW && currentRR < params->RR_HIGH){
-				params->RPeaks[params->RPeaks[100]%50] = x2;
+				params->RPeaks[params->RPeaks[100]%50] = x3;
 				params ->RPeaks[params->RPeaks[100]%50+50] = time;
 				params->RPeaks[100]++;
 				params->RecentRR[params->RecentRR[8]%8] = currentRR;
@@ -48,7 +48,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 				//printf("%d \n", x2, time, params ->SPKF);
 				//params->SPKF = x2*0.125+x2*+0.875*params->SPKF;
 
-				params->SPKF = 0.125*x2+0.875*params->SPKF;
+				params->SPKF = 0.125*x3+0.875*params->SPKF;
 
 				//calculate RR_average1
 				params->RR_AVERAGE1 =calculateAverage(params->RecentRR);
@@ -109,7 +109,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int time)
 			}
 
 		}else{
-			params->NPKF = params->NPKF*0.875+0.125*x2;
+			params->NPKF = params->NPKF*0.875+0.125*x3;
 			updateThreshholds(params);
 		}
 
