@@ -137,7 +137,9 @@ int calculateAverage(int *array){
 	}
 }
 int calculateRR(int time, int lastPeak){
-	return time-lastPeak;
+	int rr = time-lastPeak;
+	printf("Tid: %d RR: %d\n", time,rr);
+	return rr;
 }
 
 void updateThreshholds(QRS_params *params){

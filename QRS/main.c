@@ -72,9 +72,9 @@ int main(int argc, char *argv[])
 
 	}
 
-	for(int i = 0; i<qrs_params.RPeaks[100];i++){
+	/*for(int i = 0; i<qrs_params.RPeaks[100];i++){
 		printf("%d\n",qrs_params.RPeaks[i+50]);
-	}
+	}*/
 
 
 	//printf("%d \n", qrs_params.counter);
