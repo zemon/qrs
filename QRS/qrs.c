@@ -73,9 +73,9 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 					params->missCount = 0;
 				}
 
-						//printf("%d \n",currentRR);
+
 				if(currentRR>params->RR_MISS){
-					//printf("%d \n",currentRR);
+
 					int i = params->counter-2;
 					int peak2 = params->PEAKS[i%50];
 					while(peak2<=params->THRESHOLD2){
