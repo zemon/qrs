@@ -38,6 +38,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 
 void updateThreshholds(QRS_params *params);
 int calculateRR(int time, int lastPeak);
+int pulse(int rr);
 
 int calculateAverage(int *array);
 

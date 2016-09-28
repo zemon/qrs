@@ -22,10 +22,11 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 		}
 		params->counter++;
 		//printf("%d\n", params ->THRESHOLD2);
-
+		currentRR = calculateRR(time, params->lastRPeak);
+					printf("Pulse %d \n", pulse(currentRR));
 		//Calcalte RR peak
 		if(x3 > params->THRESHOLD1){
-			currentRR = calculateRR(time, params->lastRPeak);
+
 
 
 
@@ -82,7 +83,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 					params->RPeaks[100]++;
 
 					//til at vise searchbacks
-					printf("%d\n", params->RPeaks[params->RPeaks[100]+1]);
+					//printf("%d\n", params->RPeaks[params->RPeaks[100]+1]);
 
 					//store the RR interval in recentRR
 					params->RecentRR[params->RecentRR[8]%8] = calculateRR(params->PEAKS[i%50+50], params->RPeaks[(params->RPeaks[100]-2)%50+50]);
@@ -140,6 +141,11 @@ int calculateRR(int time, int lastPeak){
 	int rr = time-lastPeak;
 	//printf("Tid: %d RR: %d\n", time,rr);
 	return rr;
+}
+int pulse(int RR){
+	//returnerer antallet af millisekunder på et minut / antal millisekunder mellem hjerteslag = puls
+	// vores data bliver målt med 250hz, det vil sige vi skal gange vores interal skal ganges med 4 for at få antal millisekunder
+	return (60*1000)/(RR*4);
 }
 
 void updateThreshholds(QRS_params *params){
