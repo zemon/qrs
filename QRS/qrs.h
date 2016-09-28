@@ -28,6 +28,7 @@ typedef struct QRS_params
    int RecentRR[9];
    int RecentRROK[9];
    int RPeaks[101];
+   int missCount;
    // Add parameters that are missing
    // or of use to you
 
@@ -43,6 +44,8 @@ int pulse(int rr);
 int calculateAverage(int *array);
 
 void updateRRIntervals(QRS_params *params, int RR_Average);
+
+void warning(int peak);
 
 
 #endif /* QRS_H_ */

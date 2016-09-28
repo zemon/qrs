@@ -33,6 +33,7 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 
 			//high low check
 			if(currentRR > params->RR_LOW && currentRR < params->RR_HIGH){
+				params->missCount = 0;
 				params->RPeaks[params->RPeaks[100]%50] = x3;
 				params ->RPeaks[params->RPeaks[100]%50+50] = time;
 				params->RPeaks[100]++;
@@ -61,11 +62,17 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 
 				updateThreshholds(params);
 				updateRRIntervals(params,params->RR_AVERAGE2);
+				warning(x3);
 
 
 			}
 			else{
 
+				params->missCount++;
+				if(params->missCount >=5){
+					printf("Your heartrythem is unstable");
+					params->missCount = 0;
+				}
 
 						//printf("%d \n",currentRR);
 				if(currentRR>params->RR_MISS){
@@ -100,6 +107,8 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 					updateRRIntervals(params,params->RR_AVERAGE1);
 
 					updateThreshholds(params);
+
+					warning(peak2);
 
 
 
@@ -159,4 +168,10 @@ void updateRRIntervals(QRS_params *params, int RR_Average){
 	params->RR_LOW = 0.92*RR_Average;
 	params->RR_MISS = 1.66*RR_Average;
 	params->RR_HIGH = 1.16*RR_Average;
+}
+
+void warning(int peak){
+	if(peak<2000){
+		printf("Your heatbeat is weak");
+	}
 }
