@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	qrs_params.RR_MISS = 35000;
 	qrs_params.RecentRR[8] = 0;
 	qrs_params.RecentRROK[8] = 0;
-	qrs_params.RPeaks[100] = 0;
+	//qrs_params.RPeaks[100] = 0;
 	qrs_params.THRESHOLD1 = 5000;
 	qrs_params.THRESHOLD2 = 5000;
 	qrs_params.missCount = 0;
