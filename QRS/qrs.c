@@ -10,18 +10,12 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 		params->PEAKS[params->counter%50] = x3;
 		params->PEAKS[params->counter%50+50] = time;
 
-		//printf("%d\n", x3);
-
-		//printf("%d\n, time");
-
-		//printf("%d  %d\n",time, x2);
 		if(params->counter == 0){
 			updateThreshholds(params);
 
 
 		}
 		params->counter++;
-		//printf("%d\n", params ->THRESHOLD2);
 		currentRR = calculateRR(time, params->lastRPeak);
 
 		//Calcalte RR peak
@@ -38,15 +32,10 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 				params->RecentRR[params->RecentRR[8]%8] = currentRR;
 				params->RecentRR[8]++;
 
-				//TODO - tjek op på counter her
 				params->RecentRROK[params->RecentRROK[8]%8] = currentRR;
 				params->RecentRROK[8]++;
 
 				params->lastRPeak = time;
-
-				//update SPKF
-				//printf("%d \n", x2, time, params ->SPKF);
-				//params->SPKF = x2*0.125+x2*+0.875*params->SPKF;
 
 				params->SPKF = 0.125*x3+0.875*params->SPKF;
 
@@ -55,8 +44,6 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 
 				//calculate RR_average2
 				params->RR_AVERAGE2 =calculateAverage(params->RecentRROK);
-
-				//printf("average 1: %d average 2 : %d \n",params->RR_AVERAGE1,params->RR_AVERAGE2);
 
 				updateThreshholds(params);
 				updateRRIntervals(params,params->RR_AVERAGE2);
@@ -90,18 +77,10 @@ void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, i
 					params->LastRPeakValue= peak2;
 					params ->lastRPeak =params->PEAKS[i%50+50];
 
-
-					//til at vise searchbacks
-					//printf("%d\n", params->RPeaks[params->RPeaks[100]+1]);
-
-
-
 					params->RecentRR[params->RecentRR[8]%8] =currentRR;
 					params->RecentRR[8]++;
 
-					//printf("test : %d \n",calculateRR(params->PEAKS[i%50+50], params->RPeaks[(params->RPeaks[100]-1)%50+50]));
 					params->lastRPeak = params->PEAKS[i%50+50];
-					//printf("%d, \n", params->lastRPeak);
 
 					params->SPKF = 0.25*peak2+0.75*params->SPKF;
 
@@ -152,12 +131,9 @@ int calculateAverage(int *array){
 }
 int calculateRR(int time, int lastPeak){
 	int rr = time-lastPeak;
-	//printf("Tid: %d RR: %d\n", time,rr);
 	return rr;
 }
 int pulse(int RR){
-	//returnerer antallet af millisekunder på et minut / antal millisekunder mellem hjerteslag = puls
-	// vores data bliver målt med 250hz, det vil sige vi skal gange vores interal skal ganges med 4 for at få antal millisekunder
 	return (60*1000)/(RR*4);
 }
 
@@ -169,8 +145,6 @@ void updateThreshholds(QRS_params *params){
 
 	params->THRESHOLD1 = params->NPKF+0.25*(params->SPKF-params->NPKF);
 	params->THRESHOLD2 = (params->THRESHOLD1)/2;
-	//printf("%d %d %d", params->NPKF, params->THRESHOLD1, params->THRESHOLD2);
-
 }
 void updateRRIntervals(QRS_params *params, int RR_Average){
 	params->RR_LOW = 0.92*RR_Average;

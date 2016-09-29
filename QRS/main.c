@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
 	qrs_params.RR_MISS = 35000;
 	qrs_params.RecentRR[8] = 0;
 	qrs_params.RecentRROK[8] = 0;
-	//qrs_params.RPeaks[100] = 0;
 	qrs_params.THRESHOLD1 = 5000;
 	qrs_params.THRESHOLD2 = 5000;
 	qrs_params.missCount = 0;
@@ -29,21 +28,18 @@ int main(int argc, char *argv[])
 	int sum =0;
 	int counter = 0;
 
-	//TODO: fjern et index fra alle arrays, da n ikke bruges før det er regnet ud
 	int rawArray[13] = {0};
 	int lowPassArray[33] = {0};
 	int highPassArray[5] = {0};
 	int derivativeFilterArray[30] = {0};
 	int finalFilter[5]= {0};
 
-	//printf("%d", lowPassArray[modulo(counter-3,33)]);
 	while(!feof (file)){
 
 		//Read the next datapoint
 		rawArray[counter%13] = getNextData(file);
 
 		//Lowpass filter
-		// TODO: Metoder til insert og get fra vores circular arrays
 		lowPassArray[modulo(counter,33)]=lowPassFilter(lowPassArray[modulo(counter-1,33)],lowPassArray[modulo(counter-2,33)],
 				rawArray[modulo(counter,13)],rawArray[modulo(counter-6,13)],rawArray[modulo(counter-12,13)]);
 
@@ -58,12 +54,6 @@ int main(int argc, char *argv[])
 		sum = sumN(sum, derivativeFilterArray[counter%30],derivativeFilterArray[(counter+1)%30]);
 		finalFilter[counter%5] = movingWindowIntegration(sum);
 
-
-		//printf("%d \n",finalFilter[modulo(counter-1,5)]);
-
-		//Til visualissere threshodls
-		//printf("%d\n", qrs_params.THRESHOLD1);
-
 		if(counter>3){
 			peakDetection(&qrs_params, finalFilter[modulo(counter-4,5)], finalFilter[modulo(counter-3,5)],
 					finalFilter[modulo(counter-2,5)], finalFilter[modulo(counter-1,5)],
@@ -75,15 +65,6 @@ int main(int argc, char *argv[])
 
 	}
 
-	/*for(int i = 0; i<qrs_params.RPeaks[100];i++){
-		printf("%d\n",qrs_params.RPeaks[i+50]);
-	}
-
-
-	*/
-
-//, qrs_params.RPeaks[i]
-	//printf("%d \n", qrs_params.counter);
 	fclose(file);
 
 

@@ -7,12 +7,10 @@
 
 #ifndef QRS_H_
 #define QRS_H_
-// Header file for QRS functionality
-// it is recommended to use the structure "QRS_parameters"
-// to organize all variables and parameters
+
 
 typedef struct QRS_params
-{ // Structure for QRS parameters
+{
    int SPKF;
    int NPKF;
    int THRESHOLD1;
@@ -29,12 +27,10 @@ typedef struct QRS_params
    int RecentRROK[9];
    int LastRPeakValue;
    int missCount;
-   // Add parameters that are missing
-   // or of use to you
+
 
 } QRS_params;
 
-// Feel free to change and add methods
 void peakDetection(QRS_params *params, int x1, int x2, int x3, int x4, int x5, int time);
 
 void updateThreshholds(QRS_params *params);
